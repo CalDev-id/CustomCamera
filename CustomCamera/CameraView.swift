@@ -44,7 +44,7 @@ struct Camera: View {
                 if camera.isTaken{
                     HStack {
                         Spacer()
-                        Button(action: {}, label: {
+                        Button(action: camera.reTake, label: {
                             Image(systemName: "arrow.triangle.2.circlepath.camera")
                                 .foregroundColor(.black)
                                 .padding()
@@ -57,8 +57,8 @@ struct Camera: View {
                 Spacer()
                 HStack{
                     if camera.isTaken{
-                        Button(action: {}, label: {
-                            Text("Save")
+                        Button(action: {if camera.isSaved{camera.savePic()}}, label: {
+                            Text(camera.isSaved ? "saved" : "Save")
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
                                 .padding(.vertical, 10)
@@ -69,7 +69,7 @@ struct Camera: View {
                         .padding(.leading)
                         Spacer()
                     } else{
-                        Button(action: {camera.isTaken.toggle()}, label: {
+                        Button(action: camera.takePic, label: {
                             ZStack{
                                 Image("btc").resizable().frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 100)
                             }
@@ -85,13 +85,17 @@ struct Camera: View {
     }
 }
 
-class CameraModel: ObservableObject{
+class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     @Published var isTaken = false
     @Published var session = AVCaptureSession()
     @Published var alert = false
     //read pic data
     @Published var output = AVCapturePhotoOutput()
     @Published var preview : AVCaptureVideoPreviewLayer!
+    
+    //picdata
+    @Published var isSaved = false
+    @Published var picData = Data(count: 0)
     
     func Check(){
         //check camera permission
@@ -138,6 +142,45 @@ class CameraModel: ObservableObject{
         }catch{
             print(error.localizedDescription)
         }
+    }
+    //take n retake
+    func takePic(){
+        DispatchQueue.global(qos: .background).async {
+            self.output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
+            self.session.stopRunning()
+            
+            DispatchQueue.main.async {
+                withAnimation{self.isTaken.toggle()}
+            }
+        }
+    }
+    
+    func reTake() {
+        DispatchQueue.global(qos: .background).async {
+            self.session.startRunning()
+            DispatchQueue.main.async{
+                withAnimation{self.isTaken.toggle()}
+                //clear
+                
+            }
+        }
+    }
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if error != nil{
+            return
+        }
+        print("pic taken..")
+        
+        guard let imageData = photo.fileDataRepresentation() else{return}
+        self.picData = imageData
+    }
+    func savePic(){
+        let image = UIImage(data: self.picData)!
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        
+        self.isSaved = true
+        print("saved sucessfully")
     }
 }
 
