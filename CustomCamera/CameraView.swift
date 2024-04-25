@@ -14,9 +14,9 @@ struct CameraView: View {
     }
 }
 
-#Preview {
-    CameraView()
-}
+//#Preview {
+//    CameraView()
+//}
 
 struct Camera: View {
     
@@ -57,7 +57,7 @@ struct Camera: View {
                 Spacer()
                 HStack{
                     if camera.isTaken{
-                        Button(action: {if camera.isSaved{camera.savePic()}}, label: {
+                        Button(action: {if !camera.isSaved{camera.savePic()}}, label: {
                             Text(camera.isSaved ? "saved" : "Save")
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
@@ -137,9 +137,9 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
             if self.session.canAddOutput(self.output){
                 self.session.addOutput(self.output)
             }
-            
             self.session.commitConfiguration()
         }catch{
+            print("error disini2")
             print(error.localizedDescription)
         }
     }
@@ -161,21 +161,37 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
             DispatchQueue.main.async{
                 withAnimation{self.isTaken.toggle()}
                 //clear
-                
+                self.isSaved = false
             }
         }
     }
     
+//    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+//        if error != nil{
+//            print("error njir")
+//            return
+//        }
+//        print("pic taken..")
+//        
+//        guard let imageData = photo.fileDataRepresentation() else{return}
+//        self.picData = imageData
+//    }
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        if error != nil{
+        if let error = error {
+            print("Error capturing photo: \(error.localizedDescription)")
             return
         }
-        print("pic taken..")
         
-        guard let imageData = photo.fileDataRepresentation() else{return}
+        guard let imageData = photo.fileDataRepresentation() else {
+            print("Error converting photo to data")
+            return
+        }
+        
         self.picData = imageData
     }
+
     func savePic(){
+        print("AYAM")
         let image = UIImage(data: self.picData)!
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         
@@ -187,13 +203,10 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
 //setting preview
 
 struct CameraPreview: UIViewRepresentable {
-    func updateUIView(_ uiView: UIViewType, context: Context) {
-        
-    }
     
     @ObservedObject var camera : CameraModel
     
-    func makeUIView(context: Context) -> some UIView {
+    func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .init(x: 90, y: -150, width: 250, height: 250))
         
         camera.preview = AVCaptureVideoPreviewLayer(session: camera.session)
@@ -207,5 +220,9 @@ struct CameraPreview: UIViewRepresentable {
         camera.session.startRunning()
         
         return view
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+        
     }
 }
