@@ -126,7 +126,7 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
         do{
             self.session.beginConfiguration()
             let device = AVCaptureDevice.default(.builtInDualCamera,
-                                                 for: .video, position: .back)
+                                                 for:.video, position: .back)
             let input = try AVCaptureDeviceInput(device: device!)
             
             //check and add session
@@ -147,12 +147,11 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     func takePic(){
         DispatchQueue.global(qos: .background).async {
             self.output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
-            self.session.stopRunning()
-            
             DispatchQueue.main.async {
                 withAnimation{self.isTaken.toggle()}
             }
         }
+        self.session.stopRunning()
     }
     
     func reTake() {
@@ -166,35 +165,25 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
         }
     }
     
-//    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-//        if error != nil{
-//            print("error njir")
-//            return
-//        }
-//        print("pic taken..")
-//        
-//        guard let imageData = photo.fileDataRepresentation() else{return}
-//        self.picData = imageData
-//    }
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        if let error = error {
-            print("Error capturing photo: \(error.localizedDescription)")
+        print("ali botak")
+        if error != nil{
+            print("error njir")
+            print(error as Any)
             return
         }
+        print("pic taken..")
         
-        guard let imageData = photo.fileDataRepresentation() else {
-            print("Error converting photo to data")
-            return
-        }
-        
+        guard let imageData = photo.fileDataRepresentation() else{return}
         self.picData = imageData
     }
 
     func savePic(){
-        print("AYAM")
         let image = UIImage(data: self.picData)!
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         
+//        UIImageWriteToSavedPhotosAlbum(UIImage(data: self.picData)!, nil, nil, nil)
+//        
         self.isSaved = true
         print("saved sucessfully")
     }
