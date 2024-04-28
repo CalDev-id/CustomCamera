@@ -76,7 +76,7 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
         DispatchQueue.main.async {
             self.isTaken.toggle()
         }
-//        DispatchQueue.main.async { Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in self.session.stopRunning() } }
+        DispatchQueue.main.async { Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in self.session.stopRunning() } }
     }
     
     func cropImageToSquare(image: UIImage) -> UIImage? {
