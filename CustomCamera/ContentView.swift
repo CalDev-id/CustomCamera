@@ -9,112 +9,99 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var camera = CameraModel()
+    @State var isTaken:Bool = false
+    
+    //time
+    @State private var timeRemaining = 30
+    @State private var timerIsRunning = true
+    @State var width = UIScreen.main.bounds.width
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
-//        ZStack{
-//            ZStack {
-//                Color.yellow.ignoresSafeArea()
-//                ZStack {
-//                    CameraPreview(camera: camera).frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
-//                    Group{
-//                        Rectangle()
-//                            .fill(Color.white)
-//                            .opacity(0)
-//                            .frame(width: 65, height: 65)
-//                        Rectangle()
-//                            .stroke(Color.white, lineWidth: 2)
-//                            .frame(width: 75, height: 75)
-//                    }.padding(.bottom, 130)
-//                }
-//
-//            }
-//            VStack{
-//                if camera.isTaken{
-//                    HStack {
-//                        Spacer()
-//                        Button(action: camera.reTake, label: {
-//                            Image(systemName: "arrow.triangle.2.circlepath.camera")
-//                                .foregroundColor(.black)
-//                                .padding()
-//                                .background(Color.white)
-//                                .clipShape(Circle())
-//                        })
-//                        .padding(.trailing, 10)
-//                    }
-//                }
-//                Spacer()
-//                HStack{
-//                    if camera.isTaken{
-//                        Button(action: {if !camera.isSaved{camera.savePic()}}, label: {
-//                            Text(camera.isSaved ? "saved" : "Save")
-//                                .foregroundColor(.black)
-//                                .fontWeight(.semibold)
-//                                .padding(.vertical, 10)
-//                                .padding(.horizontal, 20)
-//                                .background(Color.white)
-//                                .clipShape(Capsule())
-//                        })
-//                        .padding(.leading)
-//                        Spacer()
-//                    } else{
-//                        Button(action: camera.takePic, label: {
-//                            ZStack{
-//                                Image("btc").resizable().frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 100)
-//                            }
-//                        })
-//                    }
-//                }
-//                .frame(height: 75)
-//            }
-//        }
-//        .onAppear(perform: {
-//            camera.Check()
-//        })
-        
         ZStack {
             Image("bgcolor").resizable().ignoresSafeArea()
             VStack{
                 HStack{
-                    Image("time")
+                    Spacer()
+                    VStack{
+                        Image(systemName: "hourglass")
+                            .resizable()
+                            .frame(width: 30, height: 35)
+                            .foregroundColor(.white)
+                        Text(String(format: "00:%02d", timeRemaining))
+                            .font(.system(size: 45))
+                            .padding(-10)
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                        }
                     Spacer()
                 }.padding(.horizontal, 55).padding(.top, 40).padding(.bottom, -30)
                 HStack{
+//                    if isTaken{
+//                        if let image = camera.showPic {
+//                                    Image(uiImage: image)
+//                                        .resizable()
+//                                        .aspectRatio(contentMode: .fit)
+//                                        .frame(width: 322, height: 331)
+//                                }
+//                    }else{
+//                        ZStack{
+//                            //camera
+//                            CameraPreview(camera: camera)
+//                            Image("frame").padding(.top, 25)
+//                            
+//                        }.padding(.top, 50).frame(width: 312, height: 321)
+//                    }
                     ZStack{
                         //camera
-                        CameraPreview(camera: camera)
-                        Image("frame").padding(.top, 25)
-                    }.padding(.top, 50).frame(width: 312, height: 321)
+                        CameraPreview(camera: camera).frame(width: 312, height: 321)
+                        Image("frame").frame(width: 312, height: 321)
+                        if let image = camera.showPic {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+//                                        .frame(width: 320, height: 321)
+                                        .opacity(isTaken ? 1 : 0.0)
+                                }
+                        
+                    }.padding(.top, 50)
                 }
+
                 Image("bawah").padding(.top, 50)
                 Spacer()
                 HStack{
                     if camera.isTaken{
                         HStack{
+                            Spacer()
+                            Button(action: { camera.reTake(); isTaken = false }, label: {
+                                Image(systemName: "arrow.clockwise.circle.fill")
+                                    .resizable()
+                                    .frame(width: 60, height: 60)
+                                    .foregroundColor(.white)
+                            })
+                            Spacer()
                             Button(action: {if !camera.isSaved{camera.savePic()}}, label: {
-                                Text(camera.isSaved ? "saved" : "Save")
-                                    .foregroundColor(.black)
-                                    .fontWeight(.semibold)
-                                    .padding(.vertical, 10)
-                                    .padding(.horizontal, 20)
-                                    .background(Color.white)
-                                    .clipShape(Capsule())
+                                Image(systemName: "checkmark.circle.fill")
+                                    .resizable()
+                                    .frame(width: 90, height: 90)
+                                    .foregroundColor(.white)
+
                             })
                             .padding(.leading)
                             Spacer()
-                            Button(action: camera.reTake, label: {
-                                Image(systemName: "arrow.triangle.2.circlepath.camera")
-                                    .foregroundColor(.black)
-                                    .padding()
-                                    .background(Color.white)
-                                    .clipShape(Circle())
+                            Button(action: { camera.reTake(); isTaken = false }, label: {
+                                Image(systemName: "arrow.clockwise.circle.fill")
+                                    .resizable()
+                                    .frame(width: 60, height: 60)
+                                    .foregroundColor(.white)
                             })
-                            .padding(.trailing, 10)
-                        }
+                            Spacer()
+                        }.frame(height: 150)
 
                     } else{
-                        Button(action: camera.takePic, label: {
+                        Button(action: {camera.takePic(); isTaken = true}, label: {
                             ZStack{
-                                Image("Camera").resizable().frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 100)
+                                Image("Camera").resizable().frame(width: 150, height: 150)
                             }
                         })
                     }
@@ -123,7 +110,15 @@ struct ContentView: View {
             }
         }.onAppear(perform: {
             camera.Check()
-        })
+        }).onReceive(timer) { _ in
+            if self.timerIsRunning {
+                if self.timeRemaining > 0 {
+                    self.timeRemaining -= 1
+                } else {
+                    self.timerIsRunning = false
+                }
+            }
+        }
     }
 }
 

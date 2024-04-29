@@ -19,6 +19,7 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     //picdata
     @Published var isSaved = false
     @Published var picData = Data(count: 0)
+    @Published var showPic: UIImage? = nil
     
     func Check(){
         //check camera permission
@@ -75,25 +76,32 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
         
         DispatchQueue.main.async {
             self.isTaken.toggle()
+//            DispatchQueue.main.async { Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in self.session.stopRunning() } }
         }
-        DispatchQueue.main.async { Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in self.session.stopRunning() } }
     }
-    
+    func reTake() {
+        DispatchQueue.global(qos: .background).async {
+            self.session.startRunning()
+//            print("retake")
+        }
+        DispatchQueue.main.async {
+            self.isTaken.toggle()
+            // Clear
+            self.isSaved = false
+//            print("sini")
+        }
+    }
     func cropImageToSquare(image: UIImage) -> UIImage? {
         let originalWidth = image.size.width
         let originalHeight = image.size.height
         
-        // Determine the desired square size
         let squareSize = min(originalWidth, originalHeight)
         
-        // Determine the starting point to crop the image
         let cropX = (originalWidth - squareSize)
         let cropY = (originalHeight - squareSize) / 100
         
-        // Create a square crop rectangle
         let cropRect = CGRect(x: 400, y: cropY, width: squareSize, height: squareSize)
         
-        // Crop the image using the specified crop rectangle
         if let cgImage = image.cgImage?.cropping(to: cropRect) {
             return UIImage(cgImage: cgImage, scale: image.scale, orientation: image.imageOrientation)
         }
@@ -101,19 +109,6 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
         return nil
     }
 
-
-    func reTake() {
-        DispatchQueue.global(qos: .background).async {
-            self.session.startRunning()
-        }
-        DispatchQueue.main.async {
-            self.isTaken.toggle()
-            // Clear
-            self.isSaved = false
-        }
-    }
-
-    
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
 //        print("ali botak")
         if error != nil{
@@ -124,9 +119,16 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
         print("pic taken..")
         
         guard let imageData = photo.fileDataRepresentation() else{return}
+        
         self.picData = imageData
+        
+        //show
+        let image = UIImage(data: self.picData)!
+        
+        let croppedImage = cropImageToSquare(image: image)!
+        self.showPic = croppedImage
     }
-
+    
     func savePic(){
         let image = UIImage(data: self.picData)!
         
@@ -138,6 +140,14 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
 //        
         self.isSaved = true
         print("saved sucessfully")
+    }
+    
+    func showPict(){
+        let image = UIImage(data: self.picData)!
+        
+        let croppedImage = cropImageToSquare(image: image)!
+        
+        return
     }
 }
 
