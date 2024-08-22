@@ -12,6 +12,14 @@
 		2E74CBCC2BDA3FFE00EEFAC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E74CBCB2BDA3FFE00EEFAC6 /* Assets.xcassets */; };
 		2E74CBCF2BDA3FFE00EEFAC6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E74CBCE2BDA3FFE00EEFAC6 /* Preview Assets.xcassets */; };
 		2E74CBD62BDA404500EEFAC6 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E74CBD52BDA404500EEFAC6 /* CameraView.swift */; };
+		2EE55E642C75D15500482836 /* ContentView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE55E632C75D15500482836 /* ContentView2.swift */; };
+		2EE55E662C75D24500482836 /* CameraView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE55E652C75D24500482836 /* CameraView2.swift */; };
+		2EE55E692C75F96600482836 /* DotLottie in Frameworks */ = {isa = PBXBuildFile; productRef = 2EE55E682C75F96600482836 /* DotLottie */; };
+		2EE55E6B2C75F9D100482836 /* scan.json in Resources */ = {isa = PBXBuildFile; fileRef = 2EE55E6A2C75F9D100482836 /* scan.json */; };
+		2EE55E6D2C75FDAB00482836 /* ResultViewDUMMY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE55E6C2C75FDAB00482836 /* ResultViewDUMMY.swift */; };
+		2EE55E6F2C75FDD000482836 /* ImageClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE55E6E2C75FDD000482836 /* ImageClassifier.swift */; };
+		2EE55E722C7685A400482836 /* PredictionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE55E712C7685A400482836 /* PredictionModel.swift */; };
+		2EE55E742C7701E700482836 /* ContentView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE55E732C7701E700482836 /* ContentView3.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +29,13 @@
 		2E74CBCB2BDA3FFE00EEFAC6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E74CBCE2BDA3FFE00EEFAC6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2E74CBD52BDA404500EEFAC6 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		2EE55E632C75D15500482836 /* ContentView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView2.swift; sourceTree = "<group>"; };
+		2EE55E652C75D24500482836 /* CameraView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView2.swift; sourceTree = "<group>"; };
+		2EE55E6A2C75F9D100482836 /* scan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = scan.json; sourceTree = "<group>"; };
+		2EE55E6C2C75FDAB00482836 /* ResultViewDUMMY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewDUMMY.swift; sourceTree = "<group>"; };
+		2EE55E6E2C75FDD000482836 /* ImageClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClassifier.swift; sourceTree = "<group>"; };
+		2EE55E712C7685A400482836 /* PredictionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionModel.swift; sourceTree = "<group>"; };
+		2EE55E732C7701E700482836 /* ContentView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView3.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE55E692C75F96600482836 /* DotLottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +72,8 @@
 				2E74CBC72BDA3FFD00EEFAC6 /* CustomCameraApp.swift */,
 				2E74CBC92BDA3FFD00EEFAC6 /* ContentView.swift */,
 				2E74CBD52BDA404500EEFAC6 /* CameraView.swift */,
+				2EE55E6A2C75F9D100482836 /* scan.json */,
+				2EE55E622C75D14000482836 /* baru */,
 				2E74CBCB2BDA3FFE00EEFAC6 /* Assets.xcassets */,
 				2E74CBCD2BDA3FFE00EEFAC6 /* Preview Content */,
 			);
@@ -68,6 +86,27 @@
 				2E74CBCE2BDA3FFE00EEFAC6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2EE55E622C75D14000482836 /* baru */ = {
+			isa = PBXGroup;
+			children = (
+				2EE55E632C75D15500482836 /* ContentView2.swift */,
+				2EE55E732C7701E700482836 /* ContentView3.swift */,
+				2EE55E652C75D24500482836 /* CameraView2.swift */,
+				2EE55E6C2C75FDAB00482836 /* ResultViewDUMMY.swift */,
+				2EE55E6E2C75FDD000482836 /* ImageClassifier.swift */,
+				2EE55E702C76854B00482836 /* Models */,
+			);
+			path = baru;
+			sourceTree = "<group>";
+		};
+		2EE55E702C76854B00482836 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2EE55E712C7685A400482836 /* PredictionModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,6 +125,9 @@
 			dependencies = (
 			);
 			name = CustomCamera;
+			packageProductDependencies = (
+				2EE55E682C75F96600482836 /* DotLottie */,
+			);
 			productName = CustomCamera;
 			productReference = 2E74CBC42BDA3FFD00EEFAC6 /* CustomCamera.app */;
 			productType = "com.apple.product-type.application";
@@ -114,6 +156,9 @@
 				Base,
 			);
 			mainGroup = 2E74CBBB2BDA3FFD00EEFAC6;
+			packageReferences = (
+				2EE55E672C75F96600482836 /* XCRemoteSwiftPackageReference "dotlottie-ios" */,
+			);
 			productRefGroup = 2E74CBC52BDA3FFD00EEFAC6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -129,6 +174,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E74CBCF2BDA3FFE00EEFAC6 /* Preview Assets.xcassets in Resources */,
+				2EE55E6B2C75F9D100482836 /* scan.json in Resources */,
 				2E74CBCC2BDA3FFE00EEFAC6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -140,9 +186,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE55E6D2C75FDAB00482836 /* ResultViewDUMMY.swift in Sources */,
 				2E74CBD62BDA404500EEFAC6 /* CameraView.swift in Sources */,
+				2EE55E722C7685A400482836 /* PredictionModel.swift in Sources */,
+				2EE55E642C75D15500482836 /* ContentView2.swift in Sources */,
 				2E74CBCA2BDA3FFD00EEFAC6 /* ContentView.swift in Sources */,
 				2E74CBC82BDA3FFD00EEFAC6 /* CustomCameraApp.swift in Sources */,
+				2EE55E742C7701E700482836 /* ContentView3.swift in Sources */,
+				2EE55E6F2C75FDD000482836 /* ImageClassifier.swift in Sources */,
+				2EE55E662C75D24500482836 /* CameraView2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +414,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2EE55E672C75F96600482836 /* XCRemoteSwiftPackageReference "dotlottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LottieFiles/dotlottie-ios";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2EE55E682C75F96600482836 /* DotLottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2EE55E672C75F96600482836 /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
+			productName = DotLottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2E74CBBC2BDA3FFD00EEFAC6 /* Project object */;
 }
